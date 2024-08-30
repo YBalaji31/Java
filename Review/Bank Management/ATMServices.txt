@@ -1,0 +1,62 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class ATMServices {
+    private List<Account> accounts;
+
+    public ATMServices() {
+        accounts = new ArrayList<>();
+        accounts.add(new Account("user1", "pass1", 1000));
+        accounts.add(new Account("user2", "pass2", 2000));
+        accounts.add(new Account("user3", "pass3", 500));
+    }
+
+    public boolean login(String username, String password) {
+        for (Account account : accounts) {
+            if (account.getUsername().equals(username) && account.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void deposit(String username, double amount) {
+        Account account = findAccountByUsername(username);
+        if (account != null) {
+            account.deposit(amount);
+        } else {
+            System.out.println("Account not found");
+        }
+    }
+
+    public void withdraw(String username, double amount) {
+        Account account = findAccountByUsername(username);
+        if (account != null) {
+            account.withdraw(amount);
+        } else {
+            System.out.println("Account not found");
+        }
+    }
+
+    public void checkBalance(String username) {
+        Account account = findAccountByUsername(username);
+        if (account != null) {
+            System.out.println("Current balance for " + username + ": $" + account.getBalance());
+        } else {
+            System.out.println("Account not found");
+        }
+    }
+
+    private Account findAccountByUsername(String username) {
+        for (Account account : accounts) {
+            if (account.getUsername().equals(username)) {
+                return account;
+            }
+        }
+        return null;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+}
